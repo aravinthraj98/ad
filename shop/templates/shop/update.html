@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action ={% url 'insert' %} method="POST"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" placeholder="product name" name="pname" required/><br>
+        <input type="file"  name="img" accept="image/*" >
+        <br>
+        <input type="text" placeholder="cost" name="cost" required/>
+        <br>
+        <select name='season'>
+            <option value=''>--Select Month--</option>
+            <option  selected value='all'>all</option>
+            <option value='January'>January</option>
+            <option value='February'>February</option>
+            <option value='March'>March</option>
+            <option value='April'>April</option>
+            <option value='May'>May</option>
+            <option value='June'>June</option>
+            <option value='July'>July</option>
+            <option value='August'>August</option>
+            <option value='September'>September</option>
+            <option value='October'>October</option>
+            <option value='November'>November</option>
+            <option value='December'>December</option>
+            </select> <br>
+            <select name="stock">
+                <option  value="yes">instock</option>
+                <option value="no">not in stock</option>
+            </select><br>
+            <select name="pmodel" required>
+                <option value="">select</option>
+                <option  value="made">readyone</option>
+                <option  value="custommade">custom</option>
+            </select><br>
+            
+        <input type="submit" value="submit"/>
+        <br>
+    </form>
+</body>
+</html>

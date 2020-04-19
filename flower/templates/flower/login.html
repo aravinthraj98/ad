@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method = "POST" action={% url 'login' %}>
+        {% csrf_token %}
+    <input type ="text" name ="uname" placeholder=" enter name"  value="{{uname}}"  required/><br>
+        
+    <input type ="password" name="pass" placeholder ="ENTER UR PASSWORD" required/><BR>
+        <input type ="submit" value="login">
+        <br><a href={% url 'resetpassword' %}>forgotpassword?</a>
+    </form>
+    {{msg}}<br>
+
+    need an account?<a href={% url 'signupnow' %}>signup</a>
+</body>
+</html>
