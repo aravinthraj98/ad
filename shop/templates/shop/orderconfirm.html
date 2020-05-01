@@ -5,10 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'shop/navbar.css' %}" rel="stylesheet">
+    <link href="{% static 'flower/style1.css' %}" rel="stylesheet">
+    
 
     <title>Document</title>
 </head>
 <body>
+    <header>
+        <div class="wrapper">
+            <div id="brand">
+                <h1><span class="highlight">THE BLOOM ROOM</span> BOUTIQUE</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'show' %}">return to Home</a></li>
+                    <li  class="current"><a href=''>orderconfirm</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header> 
     
     <br>
    <div id="textbox" style="width:200px;"> ORDERNO    {{orderno}}</div>

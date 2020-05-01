@@ -7,9 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="{% static 'shop/navbar.css' %}" rel="stylesheet">
+    <link href="{% static 'flower/style1.css' %}" rel="stylesheet">
+  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body style="background-color: beige;">
+    <header>
+        <div class="wrapper">
+            <div id="brand">
+                <h1><span class="highlight">THE BLOOM ROOM</span> BOUTIQUE</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'show' %}">return to Home</a></li>
+                    <li  class="current"><a href=''>cart</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header> 
+   <p style="text-align:center;">{{msg}}</p>
+    
+    
     <div id="mySidenav" class="sidenav">
         <a href="{% url 'showorder' %}" id="blog">myorders <i class="fa fa-shopping-bag"style="float:right" ></i> </a>
         <a href="{% url 'cart' %}" id="projects">showcart<i class="fa fa-shopping-cart"style="float:right" ></i></a>

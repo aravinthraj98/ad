@@ -6,9 +6,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'shop/navbar.css' %}" rel="stylesheet">
+    <link href="{% static 'flower/style1.css' %}" rel="stylesheet">
+
     <title>Document</title>
 </head>
 <body>
+    <header>
+        <div class="wrapper">
+            <div id="brand">
+                <h1><span class="highlight">THE BLOOM ROOM</span> BOUTIQUE</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'show' %}">return to Home</a></li>
+                    <li  class="current"><a href=''>showorders</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header> 
+
 
     <div class="grid-container" style="border-radius:10px;border-color: teal;background-color:whitesmoke;">
     <form action="{% url 'showorder' %}" method="POST">
@@ -28,7 +44,7 @@
           
           {% endfor %}<br>
          TOTALCOST: {{i.totalcost}}
-         {% ifequal i.status 'onprocess' %}
+         {% ifequal i.status 'tobedelivered' %}
          <input type ="SUBMIT" name={{i.orderno}} value="cancelorder" style="background-color: red;color: white;float:right;"><br>
          {% else %}
              <b style="float:right"> order cancelled</b>

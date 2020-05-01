@@ -20,8 +20,9 @@ from shop import views as v
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-  
-    path('sign/',views.signin,name='signupnow'),
+    path('',views.home,name="home"),
+    path('about/',views.about,name="about"),
+    path('contact',views.contact,name="contact"),
     path('signin/',views.signin_v,name="signin"),
     path('login/',views.login_v,name="login"),
     path('reset/',views.reset,name='resetpassword'),
@@ -32,9 +33,9 @@ urlpatterns = [
     path('show1/',v.purchase,name='show1'),
     path('purchase/',v.confirmorder,name='delivery'),
     path('showorder/',v.showorder,name="showorder"),
-    path('check/',v.check,name="check"),
     path('logout/',v.logout,name="logout"),
     path('cart/',v.cart,name="cart"),
     path('adminlogin/',v.updateproduct,name="admin"),
+    path('updateadmin/',v.update)
 
 ]

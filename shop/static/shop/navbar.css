@@ -111,3 +111,19 @@
     background-size: contain;
     padding: 10px;
   }
+  td{
+    border:1px solid rgb(48, 14, 10);
+  }
+  .submit{
+    background-color:goldenrod;
+    border-radius: 5px;
+    border-color: goldenrod;
+  }
+  .textbox1{
+    width:200px;
+    border-radius: 5px;
+}
+.submit:hover{
+  width:100px;
+  border-color:gold;
+}
