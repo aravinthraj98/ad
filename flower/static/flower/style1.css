@@ -173,11 +173,11 @@ aside h4
 	font-family: helvetica;
 }
 
-/* Form */
+
 .form-container
 {
-	background: url('anbu.jpg');
-	background-size: 300px;
+	background: url('bg2.jpg');
+	background-size:cover;
 	width: 100%;
 	height: 100vh;
 	background-position: bottom;

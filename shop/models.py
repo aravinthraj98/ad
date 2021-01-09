@@ -34,6 +34,25 @@ class cart(DjangoCassandraModel):
        cname = columns.Text(max_length=30)
        img = columns.Text(min_length = 2)
        cost = columns.Integer()
+
+class staff(DjangoCassandraModel):
+        phonenumber= columns.Text(primary_key=True,max_length=10)
+        sname = columns.Text(max_length=30)
+        salary= columns.Integer() 
+        password = columns.Text(max_length=30)
+        dateofjoining=columns.Text(max_length=30)
+class allstaff(DjangoCassandraModel):
+       phonenumber= columns.Text(primary_key=True,max_length=10)
+       sname = columns.Text(max_length=30)
+       salary= columns.Integer() 
+       dateofjoining =columns.Text(max_length=30)
+
+
+
+        
+
+
+
 class tempre(DjangoCassandraModel):
        pname = columns.Text(max_length = 30,primary_key=True)
        img = columns.Text(min_length = 2)

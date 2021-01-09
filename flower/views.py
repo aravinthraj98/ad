@@ -19,7 +19,7 @@ def signin_v(request):
         pwd=request.POST['pass']
         cpwd=request.POST['cpass']
         mail=request.POST['email']
-        if signup.objects.filter(username=user,email=mail).exists():
+        if signup.objects.filter(username=user).exists() or signup.objects.filter(email=mail).exists():
                return render(request,'flower/home.html',{'msg':'username or mail exist','page':'SIGNUP NOW'})
         else:
             if(pwd==cpwd):

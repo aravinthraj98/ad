@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from shop.models import product,purchasedetail,cart as cartlist,tempre,tempcn,customer
+from shop.models import product,purchasedetail,cart as cartlist,tempre,tempcn,customer,staff,allstaff
 from PIL import Image
 from django import forms
 from django.contrib import messages
@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 import datetime
 from datetime import date,timedelta
 import re
+
 mydate = datetime.datetime.now()
 month= mydate.strftime("%B")
 cartproduct={}
@@ -205,7 +206,7 @@ def confirmorder(request):
         
         if cancel==1:
                   global commitpurchase
-                  commitpurchase = purchasedetail(cname=user,orderno=orderno,productdetails=productname,totalcost=r,img=pimage,status='tobedelivered',date=DATE,orderby=orderby)
+                  commitpurchase = purchasedetail(cname=user,orderno=orderno,productdetails=productname,totalcost=r,img=pimage,status='tobedelivered',date=str(DATE),orderby=orderby)
         if len(productlist)==0:
             purchasedetail.objects.filter(orderno=orderno).delete()
             t=product.objects.all()
@@ -256,6 +257,15 @@ def showorder(request):
                 purchasedetail.objects.filter(orderno=i.orderno).update(status='cancelled')
                 orderno="orderno"+str(i.orderno)+"hasbeencancelled"
         detail=purchasedetail.objects.filter(cname=user)
+        filtr=request.POST.get('apply',False)
+        if filtr=="delivered":
+            detail=purchasedetail.objects.filter(cname=user,status='delivered')
+        elif filtr=="cancelledorder":
+            detail=purchasedetail.objects.filter(cname=user,status='cancelled')
+
+        elif filtr=='tobedelivered':
+            detail=purchasedetail.objects.filter(cname=user,status='tobedelivered')
+
 
         return render(request,'shop/showorder.html',{'detail':detail,'user':user,'orderno':orderno})
     else:
@@ -288,8 +298,9 @@ def loggedout(request):
           
 def updateproduct(request):
         if request.method=="POST":
+            name=request.POST['name']
             password=request.POST["pass"]
-            if password =="aravinthraj":
+            if staff.objects.filter(sname=name,password=password).exists() or (name=="admin" and password=="aravinthraj"):
                 request.session['shop']="admin"
                 return update(request)
             else:
@@ -426,9 +437,89 @@ def insert(request):
                    continue
               today=today+int(i.totalcost)
           return render(request,'shop/update.html',{'today':'TOTAL:'+str(today)+' rupees'})
+      elif submit=="addstaff":
+          sname=request.POST['sname']
+          phonenumber=request.POST['phone']
+          salary=request.POST['salary']
+          password=request.POST['password']
+          if staff.objects.filter(phonenumber=phonenumber).exists():
+                        return render(request,'shop/update.html',{'msg':"staff phonenumber exists"})
+          else:
+              staff.objects.create(sname=sname,phonenumber=phonenumber,salary=salary,password=password,dateofjoining=str(DATE))
+              allstaff.objects.create(sname=sname,phonenumber=phonenumber,salary=salary,dateofjoining=str(DATE))
+              return render(request,'shop/update.html',{'msg':"staff added"})
+      elif submit=="salaryupdate":
+          phonenumber=request.POST['phone']
+          salary=request.POST['salary']
+
+          if staff.objects.filter(phonenumber=phonenumber).exists():
+                staff.objects.filter(phonenumber=phonenumber).update(salary=salary)
+                allstaff.objects.filter(phonenumber=phonenumber).update(salary=salary)
+                return render(request,'shop/update.html',{'msg':"salary updated"})
+          elif allstaff.objects.filter(phonenumber=phonenumber).exists():
+               allstaff.objects.filter(phonenumber=phonenumber).update(salary=salary)
+               return render(request,'shop/update.html',{'msg':"salary updated"})
 
 
-          
+          else:
+                return render(request,'shop/update.html',{'msg':"staff not exist"})
+      elif submit=="removestaff":
+                phonenumber=request.POST['phone']
+                if staff.objects.filter(phonenumber=phonenumber).exists():
+                       staff.objects.filter(phonenumber=phonenumber).delete()
+                       allstaff.objects.filter(phonenumber=phonenumber).delete()
+                       return render(request,'shop/update.html',{'msg':"staff removed"})
+
+                elif allstaff.objects.filter(phonenumber=phonenumber).exists():
+                        allstaff.objects.filter(phonenumber=phonenumber).delete()
+                        return render(request,'shop/update.html',{'msg':"staff removed"})
+
+
+
+
+
+                else:
+                      return render(request,'shop/update.html',{'msg':"staff not exist"})
+      elif submit=="addnewstaff":
+           sname=request.POST['sname']
+           phonenumber=request.POST['phone']
+           salary=request.POST['salary']
+           if allstaff.objects.filter(phonenumber=phonenumber).exists():
+                        return render(request,'shop/update.html',{'msg':"staff phonenumber exists"})
+           else:
+              allstaff.objects.create(sname=sname,phonenumber=phonenumber,salary=salary,dateofjoining=str(DATE))
+              return render(request,'shop/update.html',{'msg':"staff added"})
+      elif  submit=="tobedelivered":
+         t=purchasedetail.objects.filter(status="tobedelivered")
+         if len(t)>0:
+           return render(request,'shop/update.html',{'details':t})
+         else:
+           return render(request,'shop/update.html',{'msg':"no orders pending"})
+      elif submit=="findstaffbyname":
+          sname=request.POST['sname']
+          if sname=="all":
+              t=allstaff.objects.all()
+              return render(request,'shop/update.html',{'sdetail':t})
+
+
+          elif allstaff.objects.filter(sname=sname).exists():
+              t=allstaff.objects.filter(sname=sname)
+              return render(request,'shop/update.html',{'sdetail':t})
+
+          else:
+              return render(request,'shop/update.html',{'msg':"no staff found"})
+      elif submit=="findstaffbynumber":
+          phonenumber=request.POST['phone']
+          t= allstaff.objects.filter(phonenumber=phonenumber)
+          if len(t)>0:
+               return render(request,'shop/update.html',{'sdetail':t})
+          else:
+              return render(request,'shop/update.html',{'msg':"no staff found"})
+
+
+
+
+
   else:
                   return render(request,'shop/adminlogin.html')
        
@@ -451,7 +542,7 @@ def update(request):
       return render(request,'shop/update.html')
    else:
        return render(request,'shop/adminlogin.html')
-
+  
 
         
         

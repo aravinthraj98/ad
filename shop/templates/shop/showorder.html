@@ -24,6 +24,16 @@
             </nav>
         </div>
     </header> 
+    <form action="" method="POST">
+        {% csrf_token %}
+
+
+       <p><input type="submit" value="delivered" class="submit" name="apply">
+        <input type="submit" value="cancelledorder" class="submit" name="apply">
+        <input type="submit" value="tobedelivered" class="submit" name="apply"><br></p> 
+        <br></p> 
+        
+    </form>
 
 
     <div class="grid-container" style="border-radius:10px;border-color: teal;background-color:whitesmoke;">
@@ -44,10 +54,15 @@
           
           {% endfor %}<br>
          TOTALCOST: {{i.totalcost}}
-         {% ifequal i.status 'tobedelivered' %}
-         <input type ="SUBMIT" name={{i.orderno}} value="cancelorder" style="background-color: red;color: white;float:right;"><br>
+         {% ifequal i.status 'cancelled' %}
+         <b style="float:right"> order cancelled</b>
          {% else %}
-             <b style="float:right"> order cancelled</b>
+              {% ifequal i.status 'tobedelivered' %}
+         <input type ="SUBMIT" name={{i.orderno}} value="cancelorder" style="background-color: red;color: white;float:right;"><br>
+              {% else %}
+              <b style="float:right">              {{i.status}}
+            </b>
+          {% endifequal %}
              {% endifequal %}
             
         </p><hr>

@@ -76,7 +76,10 @@
        <form action ={% url 'insert' %} method="POST"  enctype="multipart/form-data">
         {% csrf_token %}
         <input type="submit" value="todaysbusiness" class="submit" style="background-color:green;" name="update"/>
-        <input type="submit" value="totalbusiness" class="submit" style="background-color:green;" name="update"/><br>
+        <input type="submit" value="totalbusiness" class="submit" style="background-color:green;" name="update"/>
+        <input type="submit" value="tobedelivered" class="submit" style="background-color:green;" name="update"/>
+
+        <br>
         {{today}}
     </form>
 
@@ -122,13 +125,16 @@
         {% csrf_token %}
         <b>find purchase details</b><br>
 
-        <input type="number" name="orderno" placeholder="enterorderno">
-        <input type="submit" name="update" class="submit" value="findbyorder">
+        <input type="number" name="orderno" placeholder="enterorderno" required>
+        <input type="submit" name="update" class="submit" value="findbyorder" >
         <input type="submit" value="cancelorder" class="submit" style="background-color:red;" name="update"/>
         <input type="submit" value="delivered" class="submit" style="background-color:green;" name="update"/>
-
+    </form>
         <br>
-        <input type="text" name="cname" placeholder="entercustomername">
+        <form action ={% url 'insert' %} method="POST"  enctype="multipart/form-data">
+            {% csrf_token %}
+    
+        <input type="text" name="cname" placeholder="entercustomername"  required>
         <input type="submit" name="update" class="submit " value="findbycustomer">
 
 
@@ -147,6 +153,78 @@
 
 
 </div></div>
+<div class="grid-container" style="grid-template-columns:auto auto">
+    <div class="grid-item">
+        <form action ={% url 'insert' %} method="POST"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <b>add admin</b><br>
+            <input type="text" placeholder="staffname" name="sname" required/><br>
+             <input type="phonenumber" placeholder="+919783829948" pattern="[7-9]{1}[0-9]{9}" name="phone"  required><br>
+            <input type="number" placeholder="salary" name="salary" required><br>
+            <input type="password" placeholder="password" name="password" required><br>
+            <input type="submit" value="addstaff" class="submit" name="update"/>
+</form>
+<br><b>find staff</b>
+<form action ={% url 'insert' %} method="POST"  enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" placeholder="staffname" name="sname" required/>
+    <input type="submit" value="findstaffbyname" class="submit" name="update"/><br>
+
+
+
+</form>
+<form action ={% url 'insert' %} method="POST"  enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="phonenumber" placeholder="+919783829948" pattern="[7-9]{1}[0-9]{9}" name="phone"  required>
+    <input type="submit" value="findstaffbynumber" class="submit" name="update"/><br>
+
+
+
+</form>
+</div>
+<div class="grid-item">
+    <form action ={% url 'insert' %} method="POST"  enctype="multipart/form-data">
+        {% csrf_token %}
+<b>staff salary update</b><br>
+<input type="phonenumber" placeholder="+919783829948" pattern="[7-9]{1}[0-9]{9}" name="phone"  required><br>
+<input type="number" placeholder="salary" name="salary" required><br>
+<input type="submit" value="salaryupdate" class="submit" name="update"/><br>
+</form>
+<form action ={% url 'insert' %} method="POST"  enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="phonenumber" placeholder="+919783829948" pattern="[7-9]{1}[0-9]{9}" name="phone"  required><br>
+    <input type="submit" value="removestaff" class="submit" name="update"/><br></form><br>
+<form action ={% url 'insert' %} method="POST"  enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" placeholder="staffname" name="sname" required/><br>
+             <input type="phonenumber" placeholder="+919783829948" pattern="[7-9]{1}[0-9]{9}" name="phone"  required><br>
+            <input type="number" placeholder="salary" name="salary" required><br>
+            <input type="submit" value="addnewstaff" class="submit" name="update"/></form>
+            </div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+     
+
+
+
+
+        
+
+</div>
+
+
+
+
 
 
 <div class="grid-container" style="grid-template-columns:auto;background-color: antiquewhite;">
@@ -203,6 +281,21 @@
 {% endfor %}
 </table>
 </div>
+
+<div class="grid-container" style="grid-template-columns:auto;background-color: antiquewhite;">
+    <table>
+        <tr><th>staffname</th>
+        <th>phonenumber</th>
+    <th>salary</th>
+<th>dateofjoining</th></tr>
+{% for i in sdetail %}
+<tr><td>{{i.sname}}</td>
+<td>{{i.phonenumber}}</td>
+<td>{{i.salary}}</td>
+<td>{{i.dateofjoining}}</td></tr>
+{% endfor %}
+    </table>
+    </div>
 
 </body>
 </html>
